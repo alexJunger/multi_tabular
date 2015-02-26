@@ -130,7 +130,7 @@ end
 
 Associations
 ----------------
-#### belongs_to
+#### belongs_to_mti
 Provides a getter and setter method (`vehicle`, `vehicle=`) that handles the dynamic type of `:vehicle`.
 ```ruby
 class Engine < ActiveRecord::Base
