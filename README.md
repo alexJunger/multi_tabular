@@ -17,7 +17,7 @@ How to Include
 
 From your Gemfile:
 
-    gem 'multiple_tabular', git: 'github.com/alexJunger/multi_tabular'
+    gem 'multi_tabular', git: 'github.com/alexJunger/multi_tabular'
     
 Usage
 ===============
