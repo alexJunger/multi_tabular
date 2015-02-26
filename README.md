@@ -4,7 +4,7 @@ A multi table inheritance gem for Ruby on Rails.
 
 This gem is based on Dan Chak's *Enterprise Rails*.
 
-cFeel free to contribute.
+I provide this gem 'as is'. It has been extracted out of a WIP project with good test coverage, however the gem in itself is not currently tested. Feel free to contribute.
 
 Compatibility
 =============
@@ -21,6 +21,8 @@ From your Gemfile:
     
 Usage
 ===============
+
+Basically, this is how your multi table inheritance setup looks like on the model-layer:
 
 ```ruby
   class Vehicle < ActiveRecord::Base
@@ -39,8 +41,8 @@ Usage
 Migrations
 ------------------
 
-When using this gem, the superclass does not need it's own table. Every subclass stores all of it's data in it's own
-table.
+The superclass will not be represented in the database. Every subclass stores all of it's data in it's own
+atable. This means that shared parts of the schema (e.g. `wheels:integer`) need to be placed separately in each subclass's table.
 
 ```ruby
   class CreateMtiTables < ActiveRecord::Migration
@@ -166,3 +168,7 @@ Record creation
   engine = Engine.create(horsepower: 150, vehicle: car)
   # engine.car == engine.vehicle == car
 ```
+
+Further information
+-----------------
+multi_tabular makes a lot of assumptions about the names of your tables, models etc. - please use the conventions provided here, or you might experience problems.
