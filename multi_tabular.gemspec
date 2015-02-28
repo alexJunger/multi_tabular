@@ -10,6 +10,10 @@ super- and subclasses as well as models with a foreign-key association to MTI re
   s.license =     'MIT'
   s.files = [
       'Gemfile',
+      'lib/multi_tabular/references.rb',
+      'lib/multi_tabular/sub.rb',
+      'lib/multi_tabular/super.rb',
+      'lib/multi_tabular/version.rb',
       'lib/multi_tabular.rb'
   ]
   s.required_ruby_version = '>= 2.0'
