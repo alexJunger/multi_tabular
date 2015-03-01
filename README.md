@@ -30,11 +30,11 @@ Basically, this is how your multi table inheritance setup looks like on the mode
   end
   
   class Car < Vehicle
-    include MultiTabular::Sub
+    self.table_name = 'cars'
   end
   
   class Truck < Vehicle
-    include MultiTabular::Sub
+    self.table_name = 'trucks'
   end
 ```
 
@@ -146,15 +146,19 @@ end
 
 #### has_one
 ```ruby
-class Car < Vehicle
-  has_one :engine, foreign_key: to_foreign_key
+class Vehicle
+  def self.inherited_associations(child)
+    child.has_one :engine, foreign_key: child.to_foreign_key
+  end
 end
 ```
 
 #### has_many
 ```ruby
-class Truck < Vehicle
-  has_many :engines, foreign_key: to_foreign_key
+class Vehicle
+  def self.inherited_associations(child)
+    child.has_many :engines, foreign_key: child.to_foreign_key
+  end
 end
 ```
 

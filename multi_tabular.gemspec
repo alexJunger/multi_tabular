@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name =        %q{multi_tabular}
-  s.version =     '0.0.2'
+  s.version =     '0.0.4'
   s.date =        %q{2015-02-19}
   s.authors =     ['Alexander Junger']
   s.email =       'hello@alexanderjunger.at'
@@ -11,7 +11,6 @@ super- and subclasses as well as models with a foreign-key association to MTI re
   s.files = [
       'Gemfile',
       'lib/multi_tabular/references.rb',
-      'lib/multi_tabular/sub.rb',
       'lib/multi_tabular/super.rb',
       'lib/multi_tabular/version.rb',
       'lib/multi_tabular.rb'
