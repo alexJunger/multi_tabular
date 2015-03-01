@@ -4,7 +4,9 @@ A multi table inheritance gem for Ruby on Rails.
 
 This gem is based on Dan Chak's *Enterprise Rails*.
 
-I provide this gem 'as is'. It has been extracted out of a WIP project with good test coverage, however the gem in itself is not currently tested. Feel free to contribute.
+I provide this gem 'as is'. It has been extracted out of a WIP project with good test coverage, however the gem in itself is not currently tested.
+It's currently in a state where I can say 'it works', but it's far from perfect - if anybody wants to help me improve
+ it, feel free to contact me!
 
 Compatibility
 =============
@@ -16,6 +18,10 @@ How to Include
 ==============
 
 From your Gemfile:
+
+    gem 'multi_tabular'
+
+or use the latest version directly from GitHub:
 
     gem 'multi_tabular', git: 'git://github.com/alexJunger/multi_tabular'
     
@@ -147,18 +153,21 @@ end
 #### has_one
 ```ruby
 class Vehicle
-  def self.inherited_associations(child)
-    child.has_one :engine, foreign_key: child.to_foreign_key
-  end
+  child_has_one :engine
 end
 ```
 
 #### has_many
 ```ruby
 class Vehicle
-  def self.inherited_associations(child)
-    child.has_many :engines, foreign_key: child.to_foreign_key
-  end
+    child_has_many :engines
+end
+```
+
+#### with options
+```ruby
+class Vehicle
+    child_has_many :motors, class_name: 'Engine'
 end
 ```
 
@@ -176,3 +185,11 @@ Record creation
 Further information
 -----------------
 multi_tabular makes a lot of assumptions about the names of your tables, models etc. - please use the conventions provided here, or you might experience problems.
+
+Changelog
+==================
+
+0.1.0
+------------
+- Subclasses no longer need to include their own module.
+- Associations from MTI to other models can now be inherited with `child_has_one` and `child_has_many`.
