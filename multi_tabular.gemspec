@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name =        %q{multi_tabular}
-  s.version =     '0.1.0'
+  s.version =     '0.1.1'
   s.date =        %q{2015-02-19}
   s.authors =     ['Alexander Junger']
   s.email =       'hello@alexanderjunger.at'
@@ -18,6 +18,6 @@ super- and subclasses as well as models with a foreign-key association to MTI re
   s.required_ruby_version = '>= 2.0'
   s.require_paths = ['lib']
 
-  s.add_dependency 'activesupport', '>= 4.1'
-  s.add_dependency 'activerecord', '>= 4.1'
+  s.add_dependency 'activesupport', '~> 4.1'
+  s.add_dependency 'activerecord', '> 4.1'
 end
