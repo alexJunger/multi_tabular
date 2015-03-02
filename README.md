@@ -143,10 +143,10 @@ Provides a getter and setter method (`vehicle`, `vehicle=`) that handles the dyn
 ```ruby
 class Engine < ActiveRecord::Base
   belongs_to_mti :vehicle, base_class: 'Vehicle'
-  belongs_to :car, class_name: 'Car', foreign_key: 'car_id'
-  belongs_to :truck, class_name: 'Truck', foreign_key: 'truck_id'
-  
-  # horsepower:integer
+
+  # Created automatically
+  # belongs_to :car, class_name: 'Car', foreign_key: 'car_id'
+  # belongs_to :truck, class_name: 'Truck', foreign_key: 'truck_id'
 end
 ```
 
@@ -182,12 +182,59 @@ Record creation
   # engine.car == engine.vehicle == car
 ```
 
+Fixtures & Constraints
+-----------------
+This is not specific to `multi_tabular` but I want to mention it anyway:
+If you use fixtures (which is perfectly fine) and foreign key constraints, you might run into some trouble when
+executing your tests. Foreign key constraints rely on a 'correct' order of loading data. That is, records referenced
+from a foreign key must already be in the database at the time of the referencing item's insertion.
+
+Here are some tricks I found helpful:
+- In your *config/environments.rb*, add an environment variable where you set the load order of your fixtures.
+    Like so: ```ruby
+    ENV['FIXTURES'] ||= [
+        'template/jekylls',
+        'template/middlemen',
+        'template/file_collections',
+        'template/text_files',
+        'template/binary_files',
+        'users',
+        'projects',
+        'participations',
+        'hosting/ftps',
+        'hosting/sftps',
+        'hosting/adapters',
+        'deployments',
+        'template/meta',
+        'template/front_matters'
+    ].join(',')
+    ```
+- In your test_helper.rb before loading fixtures disable triggers and re-enable them after loading the fixtures.
+    Like so (in Postgres): ```ruby
+      tables = ActiveRecord::Base.connection.tables
+
+      tables.each do |tablename|
+        ActiveRecord::Base.connection.execute "alter table #{tablename} disable trigger all;"
+      end
+
+      fixtures :all
+
+      tables.each do |tablename|
+        ActiveRecord::Base.connection.execute "alter table #{tablename} enable trigger all;"
+      end
+    ```
+
 Further information
 -----------------
 multi_tabular makes a lot of assumptions about the names of your tables, models etc. - please use the conventions provided here, or you might experience problems.
 
 Changelog
 ==================
+
+0.2.0
+------------
+- `belongs_to_mti :superclass` no longer relies on manual definitions of `belongs_to :subclass` for every subclass.
+This is now done automatically.
 
 0.1.0
 ------------

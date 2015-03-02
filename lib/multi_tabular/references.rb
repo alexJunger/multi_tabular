@@ -1,3 +1,5 @@
+require 'pry'
+
 module MultiTabular
   # For classes that reference an MTI class
   module References
@@ -5,7 +7,7 @@ module MultiTabular
 
     included do
       def reflection_assignment_method(klass)
-        self.class.reflect_on_association(reflection_symbol(klass)).name.to_s + '='
+        self.class.reflect_on_association(Helpers.reflection_symbol(klass)).name.to_s + '='
       end
 
       def reflection_assignment_symbol(sym)
@@ -16,15 +18,9 @@ module MultiTabular
       # list of defined associations within the current class
       def association_methods(mti_base_class)
         (mti_base_class.descendants << mti_base_class).map{|s|
-          assoc = self.class.reflect_on_association(reflection_symbol s)
+          assoc = self.class.reflect_on_association(Helpers.reflection_symbol s)
           assoc ? assoc.name : nil
         }.compact
-      end
-
-      # for a given class, returns the appropriate symbol
-      # to pass to the ActiveRecord method reflect_on_association
-      def reflection_symbol(klass)
-        klass.to_s.sub('::', '_').underscore.to_sym
       end
     end
 
@@ -40,12 +36,6 @@ module MultiTabular
           bc.is_a?(Class) && bc < ActiveRecord::Base
         end
 
-        # for a given class, returns the appropriate symbol
-        # to pass to the ActiveRecord method reflect_on_association
-        def reflection_symbol(klass)
-          klass.to_s.sub('::', '_').underscore.to_sym
-        end
-
         if params.key? :base_class
           base_class = Module.const_get params[:base_class]
         else
@@ -55,6 +45,12 @@ module MultiTabular
         # Raise an error if the base class doesn't saturate the conditions.
         unless validate_base_class base_class
           fail InvalidBaseClassError.new "#{base_class} is not a valid base class."
+        end
+
+        base_class.descendants.each do |descendant|
+          self.belongs_to Helpers.reflection_symbol(descendant),
+                          class_name: descendant.to_s,
+                          foreign_key: "#{Helpers.reflection_symbol(descendant)}_id"
         end
 
         # Define the getter method for retrieving a referenced MTI record.
