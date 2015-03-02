@@ -118,8 +118,10 @@ require_relative 'truck'
 # This class will assume ownership of a 'cars' table in the database.
 
 class Car < Vehicle
-  include MultiTabular::Sub
-  
+ def toot
+  puts 'high pitched toot'
+ end
+ 
   # wheels:integer
   # max_passengers:integer
 end
@@ -129,8 +131,10 @@ end
 # This class will assume ownership of a 'trucks' table in the database.
 
 class Truck < Vehicle
-  include MultiTabular::Sub
-  
+ def toot
+  puts 'low pitched toot'
+ end
+ 
   # wheels:integer
   # freight_capacity:integer
 end
