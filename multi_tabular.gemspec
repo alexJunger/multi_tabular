@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name =        %q{multi_tabular}
   s.version =     '0.2.0'
-  s.date =        %q{2015-02-19}
+  s.date =        Date.today.to_s
   s.authors =     ['Alexander Junger']
   s.email =       'hello@alexanderjunger.at'
   s.summary =     %q{True multi table inheritance for ActiveRecord.}
