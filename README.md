@@ -189,8 +189,9 @@ If you use fixtures (which is perfectly fine) and foreign key constraints, you m
 executing your tests. Foreign key constraints rely on a 'correct' order of loading data. That is, records referenced
 from a foreign key must already be in the database at the time of the referencing item's insertion.
 
-Here are some tricks I found helpful:
-- In your *config/environments.rb*, add an environment variable where you set the load order of your fixtures.
+Here are some ways to achieve this:
+- In your *config/environments.rb* you can specify the order in which fixtures will be loaded. Add an environment
+variable  where you set the load order of your fixtures.
     Like so: ```ruby
     ENV['FIXTURES'] ||= [
         'template/jekylls',
