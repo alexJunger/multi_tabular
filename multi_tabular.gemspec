@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name =        %q{multi_tabular}
-  s.version =     '0.2.0'
-  # s.date =        Date.today.to_s
+  s.version =     '0.2.1'
+  s.date =        Date.today.to_s
   s.authors =     ['Alexander Junger']
   s.email =       'hello@alexanderjunger.at'
   s.summary =     %q{True multi table inheritance for ActiveRecord.}
@@ -10,6 +10,7 @@ super- and subclasses as well as models with a foreign-key association to MTI re
   s.license =     'MIT'
   s.files = [
       'Gemfile',
+      'lib/multi_tabular/helpers.rb',
       'lib/multi_tabular/references.rb',
       'lib/multi_tabular/super.rb',
       'lib/multi_tabular/version.rb',
