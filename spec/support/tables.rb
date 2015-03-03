@@ -24,6 +24,9 @@ conn.create_table :engines do |t|
 
   t.integer :car_id
   t.integer :truck_id
+
+  t.integer :space_air_rocket_id
+  t.integer :space_air_jet_id
 end
 
 conn.create_table :sport_device_mountain_bikes do |t|
@@ -38,4 +41,14 @@ conn.create_table :sport_device_racing_bikes do |t|
   t.string :model, null: false
 
   t.integer :weight, null: false
+end
+
+conn.create_table :space_air_rockets do |t|
+  t.integer :payload, null: false
+  t.integer :height, null: false
+end
+
+conn.create_table :space_air_jets do |t|
+  t.integer :speed, null: false
+  t.integer :max_altitude, null: false
 end

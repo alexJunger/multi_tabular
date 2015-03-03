@@ -10,9 +10,19 @@ class Truck < Vehicle
 end
 
 class Engine < ActiveRecord::Base
-  belongs_to_mti :vehicle, base_class: 'Vehicle'
-  # belongs_to :car, class_name: 'Car'
-  # belongs_to :truck, class_name: 'Truck'
+end
+
+module SpaceAir
+  class Craft < ActiveRecord::Base
+    include MultiTabular::Super
+    child_has_one :engine
+  end
+
+  class Rocket < Craft
+  end
+
+  class Jet < Craft
+  end
 end
 
 module Sport
