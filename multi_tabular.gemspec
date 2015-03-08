@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name =        %q{multi_tabular}
-  s.version =     '0.2.1'
+  s.version =     '0.2.2'
   s.date =        Date.today.to_s
   s.authors =     ['Alexander Junger']
   s.email =       'hello@alexanderjunger.at'

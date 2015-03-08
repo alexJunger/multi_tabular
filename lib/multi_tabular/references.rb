@@ -31,9 +31,12 @@ module MultiTabular
       # The method tries to guess the base class itself based on the association name, but if namespaces or an arbitrary
       # association name is used, the name of the base class should be passed as string with base_class: 'BaseClassName"
       def belongs_to_mti(assoc_sym, params = {})
-        # Check if guessed or passed in constant is a class and is a descendant of ActiveRecord::Base
-        def validate_base_class(bc)
-          bc.is_a?(Class) && bc < ActiveRecord::Base
+        def sanitized(params = {})
+          whitelist = [:inverse_of]
+
+          params.delete_if do |key, _|
+            !whitelist.include?(key)
+          end
         end
 
         if params.key? :base_class
@@ -43,14 +46,18 @@ module MultiTabular
         end
 
         # Raise an error if the base class doesn't saturate the conditions.
-        unless validate_base_class base_class
+        unless Helpers.validate_base_class(base_class)
           fail InvalidBaseClassError.new "#{base_class} is not a valid base class."
         end
 
         base_class.descendants.each do |descendant|
-          self.belongs_to Helpers.reflection_symbol(descendant),
-                          class_name: descendant.to_s,
-                          foreign_key: "#{Helpers.reflection_symbol(descendant)}_id"
+          options = {
+              class_name: descendant.to_s,
+              foreign_key: "#{Helpers.reflection_symbol(descendant)}_id"
+          }
+
+          self.belongs_to Helpers.reflection_symbol(descendant), options.merge(sanitized(params))
+
         end
 
         # Define the getter method for retrieving a referenced MTI record.

@@ -1,6 +1,6 @@
 class Vehicle < ActiveRecord::Base
   include MultiTabular::Super
-  child_has_one :engine
+  child_has_one :engine, define_inverse: true
 end
 
 class Car < Vehicle
@@ -15,7 +15,7 @@ end
 module SpaceAir
   class Craft < ActiveRecord::Base
     include MultiTabular::Super
-    child_has_one :engine
+    child_has_one :propulsion_engine
   end
 
   class Rocket < Craft

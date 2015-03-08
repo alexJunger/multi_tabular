@@ -12,6 +12,18 @@ describe MultiTabular do
         Vehicle.abstract_class.should == true
       end
     end
+
+    context 'when called on class' do
+      it 'should define association on children' do
+        Car.reflect_on_association(:engine).should_not be_nil
+        Truck.reflect_on_association(:engine).should_not be_nil
+      end
+
+      it 'should assign all options to child associations' do
+        Car.reflect_on_association(:engine).options[:inverse_of].should be(:car)
+        Truck.reflect_on_association(:engine).options[:inverse_of].should be(:truck)
+      end
+    end
   end
 
   describe MultiTabular::References do
@@ -143,6 +155,20 @@ describe MultiTabular do
               expect(engine.space_air_jet).to be_nil
             end
           end
+        end
+      end
+
+      context 'which belongs to SpaceAir::Craft and has inverse_of' do
+        before do
+          Engine.belongs_to_mti :craft, base_class: 'SpaceAir::Craft', inverse_of: :propulsion_engine
+        end
+
+        it 'belongs to SpaceAir::Jet and has inverse_of: :engine' do
+          subject.reflect_on_association(:space_air_jet).options[:inverse_of].should be(:propulsion_engine)
+        end
+
+        it 'belongs to SpaceAir::Rocket and has inverse_of: engine' do
+          subject.reflect_on_association(:space_air_rocket).options[:inverse_of].should be(:propulsion_engine)
         end
       end
     end
