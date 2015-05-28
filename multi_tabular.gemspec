@@ -21,3 +21,4 @@ super- and subclasses as well as models with a foreign-key association to MTI re
   s.add_dependency 'activesupport', '~> 4.1'
   s.add_dependency 'activerecord', '~> 4.1'
 end
+
